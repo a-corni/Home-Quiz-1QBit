@@ -25,9 +25,9 @@ def represent_graph(graph, n):
         x = vertex
         y = all_y[x]
         
-         represent_vertex(ax, x, y)
+        represent_vertex(ax, x, y)
         
-        neighbours = graph[vertex]
+        neighbours = Neighbours(graph, vertex)
         
         for neighbour in neighbours :
             
@@ -38,6 +38,41 @@ def represent_graph(graph, n):
     plt.ylim(0,n)
 
     plt.title('Graph')
+    plt.savefig('Graph.png')
     plt.show()
     
+    return all_x, all_y
+
+def represent_paths(all_x, all_y, paths):
     
+    m = len(paths)
+    
+    for i in range(m):
+        
+        fig, ax = plt.subplots()
+        
+        for x in all_x :
+            
+            y = all_y[x]
+            represent_vertex(ax, x, y)
+        
+        path = paths[i]
+        vertex_start = path[0]
+        n = len(path)
+        
+        for j in range(1,n) :
+            
+            vertex = path[j]
+            x = vertex_start
+            y = all_y[x]
+            x_neighbour = vertex
+            y_neighbour = all_y[x_neighbour]
+            represent_link(ax, x, y, x_neighbour, y_neighbour)
+            vertex_start = vertex
+    
+        plt.xlim(0,n)
+        plt.ylim(0,n)
+
+        plt.title('Hamiltonian path number ' + str(i+1))
+        plt.savefig("Hamiltonian_path_"+str(i+1)+".png")
+    plt.show()
